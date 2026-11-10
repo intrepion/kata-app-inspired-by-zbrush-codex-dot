@@ -1,0 +1,35 @@
+{
+  "schemaVersion": 1,
+  "kind": "app",
+  "title": "Kata Claywell",
+  "repository": "kata-app-inspired-by-zbrush-codex-dot",
+  "section": "Kata Tool Shed",
+  "category": "3D & Creative",
+  "tagline": "Find the form within.",
+  "description": "An earthy digital clay studio with actual mesh deformation, three sculpting brushes, symmetry and portable sculpt exports.",
+  "entryPoint": "index.html",
+  "status": "local-prototype",
+  "toolShedUrl": "https://intrepion.github.io/tools/",
+  "features": [
+    "Build, carve and Laplacian smooth brushes",
+    "X-axis symmetry",
+    "Adjustable brush size and strength",
+    "Three original starter forms",
+    "Four studio materials",
+    "Orbit, zoom and wire overlay",
+    "Keyboard brush stamping",
+    "20-step undo and redo",
+    "Editable JSON project import/export",
+    "Geometry-only OBJ export",
+    "Local browser autosave"
+  ],
+  "screenshots": [
+    "docs/screenshots/desktop.png",
+    "docs/screenshots/narrow.png"
+  ],
+  "inspiration": {
+    "name": "ZBrush",
+    "url": "https://help.maxon.net/zbr/en-us/Content/html/user-guide/3d-modeling/sculpting/sculpting-brushes/sculpting-brushes.html"
+  },
+  "license": "MIT"
+}

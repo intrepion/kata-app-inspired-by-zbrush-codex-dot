@@ -1,0 +1,16 @@
+import test from 'node:test';import assert from 'node:assert/strict';
+import {History,exportOBJ,normals} from '../src/core.js';
+import {starter,meshFor,validate,adjacency,sculpt,baseMesh} from '../src/model.js';
+test('seed, sphere, pebble have shared finite topology',()=>{for(const type of ['seed','sphere','pebble']){let d=starter(type),m=meshFor(d);assert.equal(m.vertices.length,1962);assert.equal(m.faces.length,3920);assert(m.vertices.every(v=>v.every(Number.isFinite)));}});
+test('starter project round trips',()=>{const d=starter();assert.deepEqual(validate(JSON.parse(JSON.stringify(d))),d);});
+test('validation rejects malformed mesh count',()=>{let d=starter();d.vertices.pop();assert.throws(()=>validate(d));});
+test('validation rejects nonfinite, string and out-of-range vertices',()=>{for(let value of [NaN,Infinity,5,'2',null]){let d=starter();d.vertices[2][0]=value;assert.throws(()=>validate(d));}});
+test('validation rejects wrong format and color',()=>{let d=starter();d.format='other';assert.throws(()=>validate(d));d=starter();d.color='red';assert.throws(()=>validate(d));});
+test('every sphere vertex has neighbors and outward normals',()=>{let m=baseMesh('sphere'),n=normals(m),adj=adjacency(m);assert(adj.every(a=>a.length>=4));assert(n[100].reduce((s,x,i)=>s+x*m.vertices[100][i],0)>.9);});
+test('build brush increases a front vertex radius',()=>{let m=baseMesh('sphere'),adj=adjacency(m),i=m.vertices.findIndex(v=>v[2]>.999);let p=[...m.vertices[i]],before=Math.hypot(...p);assert(sculpt(m,p,'inflate',.3,1,false,adj)>0);assert(Math.hypot(...m.vertices[i])>before);});
+test('carve brush decreases front vertex radius',()=>{let m=baseMesh('sphere'),adj=adjacency(m),i=m.vertices.findIndex(v=>v[2]>.999),p=[...m.vertices[i]];sculpt(m,p,'carve',.3,1,false,adj);assert(Math.hypot(...m.vertices[i])<1);});
+test('local brush leaves far vertices unchanged',()=>{let m=baseMesh('sphere'),adj=adjacency(m),before=structuredClone(m.vertices);sculpt(m,[0,0,1],'inflate',.2,1,false,adj);assert.deepEqual(m.vertices[0],before[0]);});
+test('symmetry edits mirrored surface points',()=>{let m=baseMesh('sphere'),adj=adjacency(m),p=[.62349,0,.78183],before=structuredClone(m.vertices);sculpt(m,p,'inflate',.25,1,true,adj);assert(m.vertices.some((v,i)=>before[i][0]<-.5&&v.some((x,j)=>x!==before[i][j])));});
+test('smooth brush reduces a local raised spike',()=>{let m=baseMesh('sphere'),adj=adjacency(m),i=m.vertices.findIndex(v=>v[2]>.999);m.vertices[i][2]=1.2;sculpt(m,[...m.vertices[i]],'smooth',.4,1,false,adj);assert(m.vertices[i][2]<1.2);});
+test('sculpt history supports undo and redo without mutating snapshots',()=>{let h=new History(),d=starter();h.push(d);d.vertices[0][1]=2;assert.notEqual(h.undo(d).vertices[0][1],2);assert.equal(h.redo(starter()).vertices[0][1],2);});
+test('OBJ exports every vertex and face',()=>{let d=starter(),m=meshFor(d),text=exportOBJ([{name:d.name,mesh:m,position:[0,0,0],rotation:[0,0,0],scale:[1,1,1]}]);assert.equal(text.split('\n').filter(l=>l.startsWith('v ')).length,1962);assert.equal(text.split('\n').filter(l=>l.startsWith('f ')).length,3920);});
