@@ -72,8 +72,13 @@ Loading another project or starting a new form asks before replacing edits not y
 - `tests/`: Node tests and browser UI/layout harnesses.
 - `docs/INSPIRATION.md`: official-source research and scope decisions.
 - `docs/QA.md`: actual checks and verification limits.
-- `app.json`: Tool Shed metadata. No hosting or repository publication performed.
+- `app.json`: Tool Shed metadata and published app link.
 
 ## License and attribution
 
 MIT, see [LICENSE](LICENSE). Inspired by [Maxon ZBrush](https://www.maxon.net/en/zbrush), without affiliation, endorsement, copied branding, borrowed assets, or native file compatibility. The combined `.gitignore` covers Windows, macOS, Linux/Unix, editors, builds, dependencies, secrets and test outputs.
+
+
+## Published app
+
+Open [Kata Claywell](https://intrepion.github.io/kata-app-inspired-by-zbrush-codex-dot/). The public repository uses GitHub Actions to verify and deploy `dist/` from `main`. See [QA notes](docs/QA.md) for local verification and known limits.

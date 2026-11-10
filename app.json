@@ -8,7 +8,7 @@
   "tagline": "Find the form within.",
   "description": "An earthy digital clay studio with actual mesh deformation, three sculpting brushes, symmetry and portable sculpt exports.",
   "entryPoint": "index.html",
-  "status": "local-prototype",
+  "status": "live",
   "toolShedUrl": "https://intrepion.github.io/tools/",
   "features": [
     "Build, carve and Laplacian smooth brushes",
@@ -31,5 +31,6 @@
     "name": "ZBrush",
     "url": "https://help.maxon.net/zbr/en-us/Content/html/user-guide/3d-modeling/sculpting/sculpting-brushes/sculpting-brushes.html"
   },
-  "license": "MIT"
+  "license": "MIT",
+  "launchUrl": "https://intrepion.github.io/kata-app-inspired-by-zbrush-codex-dot/"
 }
